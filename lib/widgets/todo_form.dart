@@ -18,7 +18,9 @@ class ToDoForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
+    return AlertDialog(
+              title: Text("Nova tarefa"),
+              content: Form(
       key: _formKey,
       child: ListView(
         children: <Widget>[
@@ -59,6 +61,9 @@ class ToDoForm extends StatelessWidget {
           )
         ],
       ),
-    );
+    ),
+            );
+    
+    
   }
 }

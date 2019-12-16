@@ -24,10 +24,7 @@ class _HomeState extends State<Home> {
         child: Icon(Icons.add),
         onPressed: (){
           showDialog(context: context, builder: (context){
-            return AlertDialog(
-              title: Text("Nova tarefa"),
-              content: ToDoForm(toDoBloc),
-            );
+            return ToDoForm(toDoBloc);
           });
         },
       ),
