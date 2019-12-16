@@ -21,6 +21,10 @@ class ToDoBloc {
     toDoStream.sink.add(toDoList);
   }
 
+  printList(){
+    print(toDoList);
+  }
+
   dispose(){
     toDoStream.close();
   }
