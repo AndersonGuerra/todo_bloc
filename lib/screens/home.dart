@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/bloc/todo_bloc.dart';
+import 'package:todo_app/widgets/list_item.dart';
 import 'package:todo_app/widgets/todo_form.dart';
 
 class Home extends StatefulWidget {
@@ -23,9 +24,7 @@ class _HomeState extends State<Home> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: (){
-          showDialog(context: context, builder: (context){
-            return ToDoForm(toDoBloc);
-          });
+          showDialog(context: context, builder: (context) => ToDoForm(toDoBloc));
         },
       ),
       body: StreamBuilder<List<ToDoNote>>(
@@ -34,29 +33,12 @@ class _HomeState extends State<Home> {
           if (!snapshot.hasData) return Center(child: Text("Sem tarefas"),);
           return Container(
             child: ListView.separated(
-              separatorBuilder: (context, index){
-                return Divider(height: 0.0, color: Colors.black,);
-              },
+              separatorBuilder: (context, index) => Divider(height: 0.0),
               itemCount: snapshot.data.length,
               itemBuilder: (ctx, index){
                 ToDoNote note = snapshot.data[index];
-                return Dismissible(
-                  direction: DismissDirection.endToStart,
-                  key: Key(note.title),
-                  background: Container(
-                    alignment: AlignmentDirectional.centerEnd,
-                    color: Colors.red,
-                    child: Icon(Icons.delete, color: Colors.white,),
-                  ),
-                  onDismissed: (direction){
-                    toDoBloc.removeFromList(note);
-                  },
-                  child: ListTile(
-                    title: Text(note.title),
-                    subtitle: Text(note.description),
-                  ),
-                );
-              },
+                return ListItem(note, toDoBloc);
+              }
             ),
           );
         }
