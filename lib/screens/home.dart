@@ -27,21 +27,27 @@ class _HomeState extends State<Home> {
           showDialog(context: context, builder: (context) => ToDoForm(toDoBloc));
         },
       ),
-      body: StreamBuilder<List<ToDoNote>>(
-        stream: toDoBloc.toDoStream.stream,
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) return Center(child: Text("Sem tarefas"),);
-          return Container(
-            child: ListView.separated(
-              separatorBuilder: (context, index) => Divider(height: 0.0),
-              itemCount: snapshot.data.length,
-              itemBuilder: (ctx, index){
-                ToDoNote note = snapshot.data[index];
-                return ListItem(note, toDoBloc);
-              }
-            ),
+      body: FutureBuilder(
+        future: toDoBloc.initList(),
+        builder: (context, data){
+          if (data==null) return Center(child: CircularProgressIndicator(),);
+          return StreamBuilder<List<ToDoNote>>(
+            stream: toDoBloc.toDoStream.stream,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) return Center(child: Text("Sem tarefas"),);
+              return Container(
+                child: ListView.separated(
+                  separatorBuilder: (context, index) => Divider(height: 0.0),
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (ctx, index){
+                    ToDoNote note = snapshot.data[index];
+                    return ListItem(note, toDoBloc);
+                  }
+                ),
+              );
+            }
           );
-        }
+        },
       ),
     );
   }
