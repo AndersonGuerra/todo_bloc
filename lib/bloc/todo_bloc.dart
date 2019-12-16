@@ -39,7 +39,8 @@ class ToDoBloc {
     toDoStream.sink.add(toDoList);
   }
 
-  dispose(){
+  dispose() async {
+    await writeToDoList(toDoList);
     toDoStream.close();
   }
 
