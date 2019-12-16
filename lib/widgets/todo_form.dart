@@ -22,43 +22,49 @@ class ToDoForm extends StatelessWidget {
               title: Text("Nova tarefa"),
               content: Form(
       key: _formKey,
-      child: ListView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          TextFormField(
-            decoration: InputDecoration(
-              hintText: "Insira o título da tarefa."
-            ),
-            controller: _titleController,
-            validator: (value) => validator(value),
-          ),
-          TextFormField(
-            maxLines: null,
-            decoration: InputDecoration(
-              hintText: "Insira uma descrição."
-            ),
-            controller: _descriptionController,
-            validator: (value) => validator(value),
-          ),
-          Row(
+          ListView(
+            shrinkWrap: true,
             children: <Widget>[
-              MaterialButton(
-              child: Text("Cancelar"),
-              onPressed: (){
-                  Navigator.of(context).pop();
-                },
+              TextFormField(
+                decoration: InputDecoration(
+                  hintText: "Insira o título da tarefa."
+                ),
+                controller: _titleController,
+                validator: (value) => validator(value),
               ),
-              MaterialButton(
-                child: Text("Inserir"),
-                onPressed: (){
-                  if (_formKey.currentState.validate()){
-                    ToDoNote _newNote = ToDoNote(_titleController.text, _descriptionController.text);
-                    _toDoBloc.addToList(_newNote);
-                    Navigator.of(context).pop();
-                  }
-                },
+              TextFormField(
+                maxLines: null,
+                decoration: InputDecoration(
+                  hintText: "Insira uma descrição."
+                ),
+                controller: _descriptionController,
+                validator: (value) => validator(value),
+              ),
+              Row(
+                children: <Widget>[
+                  MaterialButton(
+                  child: Text("Cancelar"),
+                  onPressed: (){
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  MaterialButton(
+                    child: Text("Inserir"),
+                    onPressed: (){
+                      if (_formKey.currentState.validate()){
+                        ToDoNote _newNote = ToDoNote(_titleController.text, _descriptionController.text);
+                        _toDoBloc.addToList(_newNote);
+                        Navigator.of(context).pop();
+                      }
+                    },
+                  )
+                ],
               )
             ],
-          )
+          ),
         ],
       ),
     ),
